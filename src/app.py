@@ -49,6 +49,45 @@ def root():
 
 @app.get("/activities")
 def get_activities():
+    # Add 2 sports activities
+    activities["Basketball Team"] = {
+        "description": "Join the school basketball team and compete in matches",
+        "schedule": "Wednesdays, 4:00 PM - 6:00 PM",
+        "max_participants": 15,
+        "participants": []
+    }
+    activities["Swimming Club"] = {
+        "description": "Practice swimming and participate in swim meets",
+        "schedule": "Saturdays, 10:00 AM - 12:00 PM",
+        "max_participants": 20,
+        "participants": []
+    }
+    # Add 2 artistic activities
+    activities["Drama Club"] = {
+        "description": "Act, direct, and produce school plays and performances",
+        "schedule": "Mondays, 3:30 PM - 5:00 PM",
+        "max_participants": 25,
+        "participants": []
+    }
+    activities["Art Workshop"] = {
+        "description": "Explore painting, drawing, and sculpture techniques",
+        "schedule": "Thursdays, 4:00 PM - 5:30 PM",
+        "max_participants": 18,
+        "participants": []
+    }
+    # Add 2 intellectual activities
+    activities["Math Olympiad"] = {
+        "description": "Prepare for and compete in math competitions",
+        "schedule": "Tuesdays, 4:00 PM - 5:30 PM",
+        "max_participants": 10,
+        "participants": []
+    }
+    activities["Debate Team"] = {
+        "description": "Develop public speaking and argumentation skills",
+        "schedule": "Fridays, 4:00 PM - 5:30 PM",
+        "max_participants": 12,
+        "participants": []
+    }
     return activities
 
 
@@ -61,6 +100,10 @@ def signup_for_activity(activity_name: str, email: str):
 
     # Get the specific activity
     activity = activities[activity_name]
+
+    # Validate student is not already signed up
+    if email in activity["participants"]:
+        raise HTTPException(status_code=400, detail="Student already signed up for this activity")
 
     # Add student
     activity["participants"].append(email)
